@@ -22,10 +22,19 @@
 
       homebrew = {
       	enable = true;
-      	brews = [];
+      	brews = [
+      		"mas"
+      		"spicetify-cli"
+      	];
       	casks = [
 			"brave-browser"
+			"discord"
+			"spotify"
+			"wireshark"
+			"visual-studio-code"
+			"jetbrains-toolbox"
       	];
+      	onActivation.cleanup = "zap";
       };
 
       system.activationScripts.applications.text = let
@@ -47,6 +56,22 @@
           ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
         done
             '';
+
+      system.defaults = {
+              dock.persistent-apps = [
+                "/System/Applications/Launchpad.app"
+                "/Applications/Brave Browser.app"
+                "${pkgs.obsidian}/Applications/Obsidian.app"
+                "/System/Applications/Mail.app"
+                "/Applications/Spotify.app"
+                "/System/Applications/Calendar.app"
+              ];
+              finder.FXPreferredViewStyle = "clmv";
+              loginwindow.GuestEnabled  = false;
+              NSGlobalDomain.AppleICUForce24HourTime = true;
+              NSGlobalDomain.AppleInterfaceStyle = "Dark";
+              NSGlobalDomain.KeyRepeat = 2;
+            };
 
       # Auto upgrade nix package and the daemon service.
       services.nix-daemon.enable = true;
